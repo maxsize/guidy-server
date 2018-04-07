@@ -3,6 +3,7 @@ var path = require('path');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var detectRouter = require('./routes/detect');
 
 var app = express();
 app.listen(8081); 
@@ -15,8 +16,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/detect', detectRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -28,22 +36,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// Imports the Google Cloud client library
-const vision = require('@google-cloud/vision');
-// Creates a client
-const client = new vision.ImageAnnotatorClient();
-
-app.get('detect/:url', (req, res) => {
-  client
-    .labelDetection('./resources/wakeupcat.jpg')
-    .then(results => {
-      const labels = results[0].labelAnnotations;
-      res.send(labels)
-    })
-    .catch(err => {
-      console.error('ERROR:', err);
-    });
-})
 
 module.exports = app;
