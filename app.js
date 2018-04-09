@@ -4,6 +4,7 @@ var path = require('path');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var detectRouter = require('./routes/detect');
+var speechRouter = require('./routes/speech');
 
 var app = express();
 app.listen(8081); 
@@ -25,6 +26,7 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/detect', detectRouter);
+app.use('/speech', speechRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
