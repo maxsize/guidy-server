@@ -7,6 +7,10 @@
   },
   "dependencies": {
     "@google-cloud/vision": "^0.19.0",
+<<<<<<< HEAD
+=======
+    "@google-cloud/speech": "^1.4.0",
+>>>>>>> 3739ebeb12e55c40e099d5994b863d6ba6172462
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
