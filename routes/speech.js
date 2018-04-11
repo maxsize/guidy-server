@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const speech = require('@google-cloud/speech');
-const client = new speech.v1.SpeechClient();
+const client = new speech.SpeechClient();
 
 router.route('/')
   .post(function (req, res, next) {
@@ -18,10 +18,11 @@ router.route('/')
 
 module.exports = router;
 
-function callApi(data, res) {
+function callApi(jsonStr, res) {
   // var encoding = 'FLAC';
   // var sampleRateHertz = 44100;
   // var languageCode = 'en-US';
+  const data = JSON.parse(jsonStr)
   var config = {
     encoding: data.encoding,
     sampleRateHertz: data.sampleRateHertz,
@@ -35,9 +36,11 @@ function callApi(data, res) {
     config: config,
     audio: audio,
   };
+  console.log(request)
   client.recognize(request)
     .then(responses => {
       var response = responses[0];
+      console.log(responses)
       res.send(response)
     })
     .catch(err => {
