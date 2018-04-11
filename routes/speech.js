@@ -6,30 +6,30 @@ const client = new speech.v1.SpeechClient();
 
 router.route('/')
   .post(function (req, res, next) {
-    let uri = ''
+    let data = ''
     req.on('data', buffer => {
-      uri += buffer
+      data += buffer
     })
     req.on('end', () => {
-      console.log('image uri: ' + uri)
-      callApi(uri, res)
+      console.log('data: ' + data)
+      callApi(data, res)
     })
   })
 
 module.exports = router;
 
-function callApi(uri, res) {
-  var encoding = 'FLAC';
-  var sampleRateHertz = 44100;
-  var languageCode = 'en-US';
+function callApi(data, res) {
+  // var encoding = 'FLAC';
+  // var sampleRateHertz = 44100;
+  // var languageCode = 'en-US';
   var config = {
-    encoding: encoding,
-    sampleRateHertz: sampleRateHertz,
-    languageCode: languageCode,
+    encoding: data.encoding,
+    sampleRateHertz: data.sampleRateHertz,
+    languageCode: data.languageCode,
   };
   // var uri = 'gs://guidy-app.appspot.com/audio/forbidden-city.flac';
   var audio = {
-    uri: uri,
+    uri: data.uri,
   };
   var request = {
     config: config,
